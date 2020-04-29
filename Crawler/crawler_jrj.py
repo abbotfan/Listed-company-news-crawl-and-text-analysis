@@ -37,6 +37,8 @@ class WebCrawlFromjrj(object):
         self.Range = arg[2]
         self.ThreadsNum = kwarg['ThreadsNum']
         self.dbName = kwarg['dbName']
+        self.user = kwarg['user']
+        self.passwd = kwarg['passwd']
         self.colName = kwarg['collectionName']
         self.IP = kwarg['IP']
         self.PORT = kwarg['PORT']
@@ -293,6 +295,7 @@ class WebCrawlFromjrj(object):
         '''
         Conn = MongoClient(self.IP, self.PORT) 
         db = Conn[self.dbName]
+        db.authenticate(self.user, self.passwd)
         self._collection = db.get_collection(self.colName)
 
     def extractData(self,tag_list):
@@ -309,6 +312,7 @@ class WebCrawlFromjrj(object):
         '''
         Conn = MongoClient(self.IP, self.PORT) 
         db = Conn[self.dbName]
+        db.authenticate(self.user, self.passwd)
         collection = db.get_collection(self.colName)
         idLst = collection.distinct('_id')
         relevantStockSeries = []
